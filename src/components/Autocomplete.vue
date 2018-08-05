@@ -51,7 +51,7 @@
         </template>
 
         <!-- no results -->
-        <li v-if="noResultMessage" class="autocomplete__results__item autocomplete__no-results">
+        <li @click.prevent="selectNoResult(result)" v-if="noResultMessage" class="autocomplete__results__item autocomplete__no-results">
           <slot name="noResults">No Results.</slot>
         </li>
       </slot>
@@ -348,6 +348,22 @@ export default {
       this.close()
     },
 
+    /**
+     * Select a result
+     * @param {Object}
+     */
+    selectNoResult (obj) {
+      if (!obj) {
+        return
+      }
+      this.$emit('selectedNoResult', {
+        value: this.value,
+        display: this.display,
+        selectedObject: obj
+      })
+
+      this.close()
+    },
     /**
      * @param  {Object} obj
      * @return {String}
